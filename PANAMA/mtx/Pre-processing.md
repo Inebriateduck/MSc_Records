@@ -19,5 +19,26 @@ Ralstonia solanacearum	73.1	12449	65%	4e-09	93.88%
 ```
 *R. solanacearum* is also pulled up as a hit for some other reads in this set as well. 
 
-According to John (and as is evidenced by the change in results upon removal of the G block), we should be filtering out these repeat regions from our data. To get an idea of the quality of the reads that have been provided, I'm going to run FastP on my initial test sample (PANAMA-10_1_S7_L001). 
+Running a couple of the G block bearing reads with the blocks removed in K2 to see if anything changes:
+```
+kraken2 --db "/home/fry/Bioinformatics_software/Kraken2/K2_DB" \
+--threads 3 \
+--output K2_results.txt \
+--report K2_report.txt \
+K2_vs_BLAST_test
+Loading database information... done.
+5 sequences (0.00 Mbp) processed in 0.001s (276.2 Kseq/m, 33.31 Mbp/m).
+  3 sequences classified (60.00%)
+  2 sequences unclassified (40.00%)
+```
+```
+C       LH00403:165:23GW2YLT4:1:1101:5255:1028  9606    151     0:4 1:1 0:64 9606:5 0:43
+C       LH00403:165:23GW2YLT4:1:1101:33837:1070 9606    151     0:4 1:1 0:64 9606:5 0:43
+C       LH00403:165:23GW2YLT4:1:1101:32527:1126 131567  151     0:2 9606:5 0:60 2:5 0:6 1:1 0:38
+U       tester:1        0       75      0:4 1:1 0:36
+U       tester:2        0       75      0:4 1:1 0:36
+```
+When the G blocks are removed (at least for these 2 reads), K2 is unable to classify the reads... interesting. The read classified as taxid 131567 is one which does not bear a G block and was identified as human by K2 but *R. solanacearum* by BLAST, and was used as a control.
 
+
+According to John (and as is evidenced by the change in results upon removal of the G block), we should be filtering out these repeat regions from our data. To get an idea of the quality of the reads that have been provided, I'm going to run FastP on my initial test sample (PANAMA-10_1_S7_L001). 
